@@ -10,7 +10,7 @@ from classifier import identify_titles_for_df_advanced
 from cookies import save_cookies, load_cookies, login_and_save, COOKIE_FILE
 from datasearching_english import searchingbykeywords
 from pagination_english import pagination
-from savetodatabase_english import save_to_csv
+from savetodatabase_english import save_to_csv, save_to_postgres
 from utils_english import sleep
 
 tools_list = list(set([
@@ -98,7 +98,7 @@ countrylist = ["UK", 'US', 'Uzbekistan']
 
 # ─────────────── SCRAPING LOOP ───────────────
 for country in ["UK"]:
-    for keyword in ['Data engineer']:
+    for keyword in ['3D Modeling']:
         try:
             searchingbykeywords(driver, keyword, country)
             sleep(4, 7)
@@ -145,6 +145,7 @@ final_df['Posted_date'] = pd.to_datetime(final_df['Posted_date'], errors='coerce
 final_df['Posted_date'] = final_df['Posted_date'].dt.strftime('%Y-%m-%d %H:%M:%S')
 final_df.index = range(1, len(final_df) + 1)
 save_to_csv(final_df, "date.csv")
+save_to_postgres(final_df)
 
 
 # ─────────────── ILLEGAL CHAR FIX (applymap WARNING YUQ) ───────────────
